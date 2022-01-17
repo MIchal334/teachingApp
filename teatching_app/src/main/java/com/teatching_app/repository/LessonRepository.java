@@ -1,6 +1,6 @@
 package com.teatching_app.repository;
 
-import com.teatching_app.model.LessonEntity;
+import com.teatching_app.model.entity.LessonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

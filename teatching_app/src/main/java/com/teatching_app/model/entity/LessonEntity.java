@@ -1,4 +1,4 @@
-package com.teatching_app.model;
+package com.teatching_app.model.entity;
 
 
 import lombok.Getter;

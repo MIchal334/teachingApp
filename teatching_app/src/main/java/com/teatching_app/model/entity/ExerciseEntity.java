@@ -1,25 +1,25 @@
-package com.teatching_app.model;
+package com.teatching_app.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+
 @Entity
 @Getter
 @Setter
-@Table(name = "lesson_contents")
-public class LessonContentEntity {
-
+@Table(name = "exercises")
+public class ExerciseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "order_number")
-    private Integer orderNumber;
+    @Column(name = "question")
+    private String question;
 
-    @Column(name = "advice")
-    private String advice;
+    @Column(name = "answer")
+    private String answer;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")

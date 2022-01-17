@@ -1,5 +1,6 @@
-package com.teatching_app.model;
+package com.teatching_app.model.entity;
 
+import com.teatching_app.model.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,5 +47,15 @@ public class UserEntity {
     Set<CourseEntity> userCourses ;
 
     public UserEntity() {
+    }
+
+    public UserEntity(UserDTO newUser, RoleEntity role) {
+        this.username = newUser.getUsername();
+        this.password = newUser.getPassword();
+        this.name = newUser.getName();
+        this.surname = newUser.getSurname();
+        this.email = newUser.getEmail();
+        this.role = role;
+        this.isDeleted = false;
     }
 }

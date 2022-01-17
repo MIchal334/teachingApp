@@ -1,26 +1,25 @@
-package com.teatching_app.model;
+package com.teatching_app.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
-
 
 @Entity
 @Getter
 @Setter
-@Table(name = "exercises")
-public class ExerciseEntity {
+@Table(name = "lesson_contents")
+public class LessonContentEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "question")
-    private String question;
+    @Column(name = "order_number")
+    private Integer orderNumber;
 
-    @Column(name = "answer")
-    private String answer;
+    @Column(name = "advice")
+    private String advice;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
