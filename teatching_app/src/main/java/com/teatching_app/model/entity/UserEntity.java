@@ -51,7 +51,7 @@ public class UserEntity {
 
     public UserEntity(UserDTO newUser, RoleEntity role) {
         this.username = newUser.getUsername();
-        this.password = newUser.getPassword();
+        this.password = newUser.encodePassword();
         this.name = newUser.getName();
         this.surname = newUser.getSurname();
         this.email = newUser.getEmail();

@@ -3,20 +3,19 @@ package com.teatching_app.model.dto;
 import com.teatching_app.model.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Getter
 @Setter
 public class UserDTO {
 
-    String username;
-    String name;
-    String surname;
-    String email;
-    String roleName;
-    String password;
+    private String username;
+    private String name;
+    private String surname;
+    private String email;
+    private String roleName;
+    private String password;
 
-    public UserDTO() {
-    }
+
 
     public UserDTO(UserEntity user) {
         this.username = user.getUsername();
@@ -24,5 +23,29 @@ public class UserDTO {
         this.surname = user.getSurname();
         this.email = user.getEmail();
         this.roleName = user.getRole().getRoleName();
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public String encodePassword() {
+        return new BCryptPasswordEncoder().encode(password);
     }
 }
