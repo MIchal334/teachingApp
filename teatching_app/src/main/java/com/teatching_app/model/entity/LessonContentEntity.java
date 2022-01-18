@@ -1,5 +1,6 @@
 package com.teatching_app.model.entity;
 
+import com.teatching_app.model.dto.LessonContentDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,4 +25,13 @@ public class LessonContentEntity {
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     private LessonEntity lesson;
+
+    public LessonContentEntity() {
+    }
+
+    public LessonContentEntity(LessonEntity lesson, LessonContentDTO content) {
+        this.lesson = lesson;
+        this.orderNumber = content.getOrderNumber();
+        this.advice = content.getAdvice();
+    }
 }

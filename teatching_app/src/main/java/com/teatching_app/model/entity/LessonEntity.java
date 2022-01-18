@@ -30,11 +30,18 @@ public class LessonEntity {
 
     @ManyToOne
     @JoinColumn(name = "level_id")
-    private LessonEntity level;
+    private LevelEntity level;
 
     @OneToMany(mappedBy = "lesson")
     private Set<LessonContentEntity> lessonContents;
 
     @OneToMany(mappedBy = "lesson")
     private Set<ExerciseEntity> lessonExercises;
+
+    public LessonEntity(LevelEntity level) {
+        this.level = level;
+    }
+
+    public LessonEntity() {
+    }
 }
