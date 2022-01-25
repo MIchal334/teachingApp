@@ -17,14 +17,13 @@ public class AdminController{
         this.adminService = adminService;
     }
 
-//    @PostMapping("/{courseId}/{levelId}")
-//    ResponseEntity<?> addLessonToLevel(
-//                                       @PathVariable(name ="levelId") Long levelId,
-//                                       @RequestBody LessonDTO newLesson){
-//
-//        var result = adminService.addNewLesson(courseId,levelId,newLesson);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(result);
-//    }
+    @PostMapping("/{levelId}")
+    ResponseEntity<?> addLessonToLevel(@PathVariable(name ="levelId") Long levelId,
+                                       @RequestBody LessonDTO newLesson){
+
+        var result = adminService.addNewLesson(levelId,newLesson);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
 
     @PostMapping
     ResponseEntity<?> addNewLevel(@RequestBody LevelDTO newLevel){

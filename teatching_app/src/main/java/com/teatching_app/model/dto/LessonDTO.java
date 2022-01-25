@@ -10,6 +10,9 @@ import java.util.Set;
 @Getter
 @Setter
 public class LessonDTO {
+
+    private String topic;
+    private Integer number;
     Set<LessonContentDTO> content;
     Set<ExerciseDTO> exercise;
 

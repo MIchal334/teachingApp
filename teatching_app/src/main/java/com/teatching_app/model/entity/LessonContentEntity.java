@@ -30,4 +30,9 @@ public class LessonContentEntity {
     }
 
 
+    public LessonContentEntity(LessonTemplateEntity lesson, LessonContentDTO c) {
+        this.orderNumber = c.getOrderNumber();
+        this.advice = c.getAdvice();
+        this.lesson = lesson;
+    }
 }

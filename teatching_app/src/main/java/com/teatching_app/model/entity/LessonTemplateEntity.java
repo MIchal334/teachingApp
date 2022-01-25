@@ -1,6 +1,7 @@
 package com.teatching_app.model.entity;
 
 
+import com.teatching_app.model.dto.LessonDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,5 +39,11 @@ public class LessonTemplateEntity {
 
 
     public LessonTemplateEntity() {
+    }
+
+    public LessonTemplateEntity(LessonDTO newLesson, LevelTemplateEntity levelTemplate) {
+        this.number = newLesson.getNumber();
+        this.topic = newLesson.getTopic();
+        this.levelTemplate = levelTemplate;
     }
 }
