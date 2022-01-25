@@ -5,6 +5,7 @@ import com.teatching_app.model.dto.LessonContentDTO;
 import com.teatching_app.model.entity.ExerciseEntity;
 import com.teatching_app.model.entity.LessonContentEntity;
 import com.teatching_app.model.entity.LessonEntity;
+import com.teatching_app.model.entity.LessonTemplateEntity;
 import com.teatching_app.repository.ExerciseRepository;
 import com.teatching_app.repository.LessonContentRepository;
 import com.teatching_app.repository.LessonRepository;
@@ -30,17 +31,17 @@ public class LessonService {
         return lesson;
     }
 
-
-    public void addContent(LessonEntity lesson, Set<LessonContentDTO> content) {
-        content.forEach(c ->
-        {
-            lessonContentRepository.save(new LessonContentEntity(lesson,c));
-        });
-    }
-
-    public void addExercise(LessonEntity lesson, Set<ExerciseDTO> exercise) {
-        exercise.forEach(e ->{
-            exerciseRepository.save(new ExerciseEntity(lesson,e));
-        });
-    }
+//
+//    public void addContent(LessonTemplateEntity lesson, Set<LessonContentDTO> content) {
+//        content.forEach(c ->
+//        {
+//            lessonContentRepository.save(new LessonContentEntity(lesson,c));
+//        });
+//    }
+//
+//    public void addExercise(LessonTemplateEntity lesson, Set<ExerciseDTO> exercise) {
+//        exercise.forEach(e ->{
+//            exerciseRepository.save(new ExerciseEntity(lesson,e));
+//        });
+//    }
 }

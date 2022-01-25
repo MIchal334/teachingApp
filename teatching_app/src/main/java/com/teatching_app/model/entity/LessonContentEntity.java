@@ -24,14 +24,10 @@ public class LessonContentEntity {
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
-    private LessonEntity lesson;
+    private LessonTemplateEntity lesson;
 
     public LessonContentEntity() {
     }
 
-    public LessonContentEntity(LessonEntity lesson, LessonContentDTO content) {
-        this.lesson = lesson;
-        this.orderNumber = content.getOrderNumber();
-        this.advice = content.getAdvice();
-    }
+
 }

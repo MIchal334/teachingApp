@@ -24,12 +24,12 @@ public class ExerciseEntity {
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
-    private LessonEntity lesson;
+    private LessonTemplateEntity lesson;
 
     public ExerciseEntity() {
     }
 
-    public ExerciseEntity(LessonEntity lesson, ExerciseDTO exercise) {
+    public ExerciseEntity(LessonTemplateEntity lesson, ExerciseDTO exercise) {
         this.question = exercise.getQuestion();
         this.answer = exercise.getAnswer();
         this.lesson = lesson;
