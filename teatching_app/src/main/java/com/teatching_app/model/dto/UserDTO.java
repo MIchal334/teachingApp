@@ -25,6 +25,9 @@ public class UserDTO {
         this.roleName = user.getRole().getRoleName();
     }
 
+    public UserDTO() {
+    }
+
     public String getUsername() {
         return username;
     }

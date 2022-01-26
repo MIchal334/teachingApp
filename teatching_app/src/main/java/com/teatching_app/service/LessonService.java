@@ -4,10 +4,7 @@ import com.teatching_app.model.dto.ExerciseDTO;
 import com.teatching_app.model.dto.LessonContentDTO;
 import com.teatching_app.model.dto.LessonDTO;
 import com.teatching_app.model.entity.*;
-import com.teatching_app.repository.ExerciseRepository;
-import com.teatching_app.repository.LessonContentRepository;
-import com.teatching_app.repository.LessonRepository;
-import com.teatching_app.repository.LessonTemplateRepository;
+import com.teatching_app.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -18,12 +15,14 @@ public class LessonService {
     private final LessonTemplateRepository lessonTemplateRepository;
     private final LessonContentRepository lessonContentRepository;
     private final ExerciseRepository exerciseRepository;
+    private  final AnswerRepository answerRepository;
 
-    public LessonService(LessonRepository lessonRepository, LessonTemplateRepository lessonTemplateRepository, LessonContentRepository lessonContentRepository, ExerciseRepository exerciseRepository) {
+    public LessonService(LessonRepository lessonRepository, LessonTemplateRepository lessonTemplateRepository, LessonContentRepository lessonContentRepository, ExerciseRepository exerciseRepository, AnswerRepository answerRepository) {
         this.lessonRepository = lessonRepository;
         this.lessonTemplateRepository = lessonTemplateRepository;
         this.lessonContentRepository = lessonContentRepository;
         this.exerciseRepository = exerciseRepository;
+        this.answerRepository = answerRepository;
     }
 
     public LessonTemplateEntity saveNewLessonTemplate(LessonDTO newLesson, LevelTemplateEntity levelTemplate) {
@@ -41,7 +40,13 @@ public class LessonService {
 
     public void addExercise(LessonTemplateEntity lesson, Set<ExerciseDTO> exercise) {
         exercise.forEach(e ->{
-            exerciseRepository.save(new ExerciseEntity(lesson,e));
+
+            ExerciseEntity newExercise = exerciseRepository.save(new ExerciseEntity(lesson,e));
+
+            e.getAnswers().forEach(a->{
+                answerRepository.save(new AnswerEntity(a,newExercise));
+            });
+
         });
     }
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -19,8 +20,9 @@ public class ExerciseEntity {
     @Column(name = "question")
     private String question;
 
-    @Column(name = "answer")
-    private String answer;
+
+    @OneToMany(mappedBy = "exercise")
+    private Set<AnswerEntity> answers;
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
@@ -31,7 +33,6 @@ public class ExerciseEntity {
 
     public ExerciseEntity(LessonTemplateEntity lesson, ExerciseDTO exercise) {
         this.question = exercise.getQuestion();
-        this.answer = exercise.getAnswer();
         this.lesson = lesson;
     }
 }
