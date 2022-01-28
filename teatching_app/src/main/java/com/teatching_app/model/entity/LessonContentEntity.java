@@ -22,6 +22,10 @@ public class LessonContentEntity {
     @Column(name = "advice")
     private String advice;
 
+    @Column(name = "is_deleted")
+    Boolean isDeleted;
+
+
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     private LessonTemplateEntity lesson;

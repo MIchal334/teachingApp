@@ -1,7 +1,7 @@
 package com.teatching_app.controler;
 
 import com.teatching_app.model.dto.LessonDTO;
-import com.teatching_app.model.dto.LevelDTO;
+import com.teatching_app.model.dto.LevelTemplateDTO;
 import com.teatching_app.service.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +31,13 @@ public class AdminController{
     }
 
 
+    @GetMapping("/level")
+    ResponseEntity<?> showAllLevelTemplate(){
+        var result = adminService.findAllLevelTemplate();
+        return ResponseEntity.ok(result);
+    }
 
-    @PostMapping("/{levelId}")
+    @PostMapping("/level/{levelId}")
     ResponseEntity<?> addLessonToLevel(@PathVariable(name ="levelId") Long levelId,
                                        @RequestBody LessonDTO newLesson){
 
@@ -40,8 +45,8 @@ public class AdminController{
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PostMapping
-    ResponseEntity<?> addNewLevel(@RequestBody LevelDTO newLevel){
+    @PostMapping("/level")
+    ResponseEntity<?> addNewLevel(@RequestBody LevelTemplateDTO newLevel){
         var result = adminService.addNewLevel(newLevel);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

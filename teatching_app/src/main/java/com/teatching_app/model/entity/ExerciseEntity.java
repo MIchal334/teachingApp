@@ -20,6 +20,8 @@ public class ExerciseEntity {
     @Column(name = "question")
     private String question;
 
+    @Column(name = "is_deleted")
+    Boolean isDeleted;
 
     @OneToMany(mappedBy = "exercise")
     private Set<AnswerEntity> answers;

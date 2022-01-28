@@ -2,7 +2,6 @@ package com.teatching_app.validator;
 
 import com.teatching_app.exceptionHandler.exception.ResourceAlreadyExistsException;
 import com.teatching_app.model.dto.LessonDTO;
-import com.teatching_app.model.dto.LevelDTO;
 import com.teatching_app.repository.LessonTemplateRepository;
 import org.springframework.stereotype.Component;
 

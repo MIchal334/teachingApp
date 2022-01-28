@@ -22,6 +22,9 @@ public class AnswerEntity {
     @Column(name = "answer")
     private String answer;
 
+    @Column(name = "is_deleted")
+    Boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "exe_id")
     private ExerciseEntity exercise;

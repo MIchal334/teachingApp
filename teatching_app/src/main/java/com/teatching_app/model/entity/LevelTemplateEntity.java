@@ -1,11 +1,10 @@
 package com.teatching_app.model.entity;
 
-import com.teatching_app.model.dto.LevelDTO;
+import com.teatching_app.model.dto.LevelTemplateDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -24,6 +23,9 @@ public class LevelTemplateEntity {
     @Column(name = "number")
     private int number;
 
+    @Column(name = "is_deleted")
+    Boolean isDeleted;
+
 
     @OneToMany(mappedBy = "levelTemplate")
     private Set<LessonTemplateEntity> lessonsTemplate;
@@ -31,8 +33,9 @@ public class LevelTemplateEntity {
     public LevelTemplateEntity() {
     }
 
-    public LevelTemplateEntity(LevelDTO newLevel) {
+    public LevelTemplateEntity(LevelTemplateDTO newLevel) {
         this.number = newLevel.getNumber();
         this.topic = newLevel.getTopic();
+        this.isDeleted = false;
     }
 }

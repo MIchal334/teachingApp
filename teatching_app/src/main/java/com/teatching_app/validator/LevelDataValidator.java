@@ -1,7 +1,7 @@
 package com.teatching_app.validator;
 
 import com.teatching_app.exceptionHandler.exception.ResourceAlreadyExistsException;
-import com.teatching_app.model.dto.LevelDTO;
+import com.teatching_app.model.dto.LevelTemplateDTO;
 import com.teatching_app.repository.LevelTemplateRepository;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class LevelDataValidator {
         this.templateRepository = templateRepository;
     }
 
-    public void validData(LevelDTO newLevel) {
+    public void validData(LevelTemplateDTO newLevel) {
             greaterThan0(newLevel.getNumber());
             checkIfExist(newLevel.getNumber());
             checkLengthTitle(newLevel.getTopic());

@@ -26,6 +26,10 @@ public class LessonTemplateEntity {
     @Column(name = "number")
     private int number;
 
+    @Column(name = "is_deleted")
+    Boolean isDeleted;
+
+
 
     @ManyToOne
     @JoinColumn(name = "level_template_id")
@@ -45,5 +49,6 @@ public class LessonTemplateEntity {
         this.number = newLesson.getNumber();
         this.topic = newLesson.getTopic();
         this.levelTemplate = levelTemplate;
+        this.isDeleted = false;
     }
 }

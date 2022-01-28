@@ -1,7 +1,7 @@
 package com.teatching_app.service;
 
 import com.teatching_app.model.dto.LessonDTO;
-import com.teatching_app.model.dto.LevelDTO;
+import com.teatching_app.model.dto.LevelTemplateDTO;
 import com.teatching_app.model.dto.UserDTO;
 import com.teatching_app.model.entity.LessonTemplateEntity;
 import com.teatching_app.model.entity.LevelTemplateEntity;
@@ -11,6 +11,7 @@ import com.teatching_app.validator.LevelDataValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -32,7 +33,7 @@ public class AdminService {
         this.userService = userService;
     }
 
-    public LevelTemplateEntity addNewLevel(LevelDTO newLevel) {
+    public LevelTemplateEntity addNewLevel(LevelTemplateDTO newLevel) {
         levelDataValidator.validData(newLevel);
 
         LevelTemplateEntity newLevelTemplate = new LevelTemplateEntity(newLevel);
@@ -59,5 +60,15 @@ public class AdminService {
 
     public void deleteUserByAdmin(Long id) {
         userService.deleteUser(id);
+    }
+
+    public List<LevelTemplateDTO> findAllLevelTemplate() {
+        return levelTemplateRepository.findAll()
+                .stream()
+                .filter(l -> !l.getIsDeleted() )
+                .map(LevelTemplateDTO::new)
+                .collect(Collectors.toList());
+
+
     }
 }
