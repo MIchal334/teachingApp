@@ -63,5 +63,12 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/level/{levelId}/{lessonId}")
+    ResponseEntity<?> deleteLessonTemplateInLevelByAdmin(@PathVariable("levelId") Long levelId,
+                                                         @PathVariable("lessonId") Long lessonId) {
+        adminService.deleteLessonTemplateById(levelId,lessonId);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

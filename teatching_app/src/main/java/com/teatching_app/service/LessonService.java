@@ -71,10 +71,10 @@ public class LessonService {
     }
 
 
-    private LessonTemplateEntity getLessonTemplateById(Long id) {
+    public LessonTemplateEntity getLessonTemplateById(Long id) {
         return lessonTemplateRepository.findById(id)
                 .filter(l -> !l.getIsDeleted())
-                .orElseThrow(() -> new ResourceNotExistsException("Lesson not exist"));
+                .orElseThrow(() -> new ResourceNotExistsException("Lesson template not exist"));
     }
 
     private void deleteLessonContent(LessonTemplateEntity lessonToDelete) {

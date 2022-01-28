@@ -1,6 +1,8 @@
 package com.teatching_app.service;
 
 import com.teatching_app.exceptionHandler.exception.ResourceNotExistsException;
+import com.teatching_app.model.entity.LessonTemplateEntity;
+import com.teatching_app.model.entity.LevelEntity;
 import com.teatching_app.model.entity.LevelTemplateEntity;
 import com.teatching_app.repository.LevelRepository;
 import com.teatching_app.repository.LevelTemplateRepository;
@@ -47,5 +49,15 @@ public class LevelService {
                         levelRepository.save(l);
                     });
 
+    }
+
+
+    public void checkIfLevelTemplateHaveLessonTemplate(Long levelTemplateId, Long lessonTemplateId){
+        LessonTemplateEntity lessonTemplate  = lessonService.getLessonTemplateById(lessonTemplateId);
+        LevelTemplateEntity levelTemplate = getLevelTemplateById(levelTemplateId);
+
+        if(! levelTemplate.getLessonsTemplate().contains(lessonTemplate)){
+            throw new IllegalStateException("Level not include this lesson");
+        }
     }
 }

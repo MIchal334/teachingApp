@@ -89,4 +89,9 @@ public class AdminService {
         levelService.deleteLevelTemplateById(levelId);
 
     }
+
+    public void deleteLessonTemplateById(Long levelId, Long lessonId) {
+        levelService.checkIfLevelTemplateHaveLessonTemplate(levelId,lessonId);
+        lessonService.deleteLessonTemplateById(lessonId);
+    }
 }
