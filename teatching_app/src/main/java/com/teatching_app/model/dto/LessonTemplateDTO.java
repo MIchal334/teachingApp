@@ -29,8 +29,14 @@ public class LessonTemplateDTO {
     public LessonTemplateDTO(LessonTemplateEntity l) {
         this.topic = l.getTopic();
         this.number = l.getNumber();
-        this.content = l.getLessonContents().stream().map(LessonContentDTO::new).collect(Collectors.toSet());
-        this.exercise = l.getLessonExercises().stream().map(o -> new ExerciseDTO(o)).collect(Collectors.toSet());
+        this.content = l.getLessonContents().stream()
+                .filter(o -> !o.getIsDeleted())
+                .map(LessonContentDTO::new)
+                .collect(Collectors.toSet());
+        this.exercise = l.getLessonExercises().stream()
+                .filter((o-> !o.getIsDeleted()))
+                .map(ExerciseDTO::new)
+                .collect(Collectors.toSet());
 
     }
 }

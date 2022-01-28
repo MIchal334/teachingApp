@@ -76,10 +76,17 @@ public class AdminService {
     }
 
     public List<LessonTemplateDTO> lessonTemplateInLevel(Long levelId) {
-        return lessonTemplateRepository.findAll()
+        LevelTemplateEntity level = levelService.getLevelTemplateById(levelId);
+
+        return lessonTemplateRepository.findAllLessonOfLevel(level)
                 .stream()
                 .filter(l -> !l.getIsDeleted())
-                .map(l -> new LessonTemplateDTO(l))
+                .map(LessonTemplateDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    public void deleteLevelTemplateById(Long  levelId) {
+        levelService.deleteLevelTemplateById(levelId);
+
     }
 }

@@ -18,6 +18,9 @@ public class ExerciseDTO {
 
     public ExerciseDTO(ExerciseEntity o) {
         this.question = o.getQuestion();
-        this.answers = o.getAnswers().stream().map(AnswerEntity::getAnswer).collect(Collectors.toSet());
+        this.answers = o.getAnswers().stream()
+                .filter(ans -> !ans.getIsDeleted())
+                .map(AnswerEntity::getAnswer)
+                .collect(Collectors.toSet());
     }
 }

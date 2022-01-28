@@ -20,7 +20,21 @@ public class LevelService {
 
     public LevelTemplateEntity getLevelTemplateById(Long id){
         return  levelTemplateRepository.findById(id)
+                .filter(l -> !l.getIsDeleted())
                 .orElseThrow(() -> new ResourceNotExistsException("Level template not exist"));
+    }
+
+    public void  deleteLevelTemplateById(Long levelId){
+        LevelTemplateEntity levelToDelete = getLevelTemplateById(levelId);
+        levelToDelete.getLessonsTemplate()
+                .stream()
+                .filter(l -> !l.getIsDeleted())
+                .forEach( lesson ->
+                lessonService.deleteLessonTemplateById(lesson.getId())
+        );
+        levelToDelete.setIsDeleted(true);
+        levelTemplateRepository.save(levelToDelete);
+
     }
 
     public void deleteLevelByCourseId(Long id) {

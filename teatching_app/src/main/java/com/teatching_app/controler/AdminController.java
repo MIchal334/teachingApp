@@ -44,7 +44,6 @@ public class AdminController {
     }
 
     @PostMapping("/level/{levelId}")
-
     ResponseEntity<?> addLessonToLevel(@PathVariable(name = "levelId") Long levelId,
                                        @RequestBody LessonTemplateDTO newLesson) {
 
@@ -56,6 +55,12 @@ public class AdminController {
     ResponseEntity<?> addNewLevel(@RequestBody LevelTemplateDTO newLevel) {
         var result = adminService.addNewLevel(newLevel);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    @DeleteMapping("/level/{levelId}")
+    ResponseEntity<?> deleteLevelTemplateByAdmin(@PathVariable("levelId") Long levelId) {
+        adminService.deleteLevelTemplateById(levelId);
+        return ResponseEntity.ok().build();
     }
 
 
