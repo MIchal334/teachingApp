@@ -35,6 +35,10 @@ public class LevelEntity {
     @Column(name = "is_finished")
     private Boolean isFinished;
 
+    @Column(name = "is_deleted")
+    Boolean isDeleted;
+
+
     @ManyToOne
     @JoinColumn(name = "course_id")
     private CourseEntity course;

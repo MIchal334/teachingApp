@@ -2,12 +2,15 @@ package com.teatching_app.service;
 
 import com.teatching_app.model.dto.LessonDTO;
 import com.teatching_app.model.dto.LevelDTO;
+import com.teatching_app.model.dto.UserDTO;
 import com.teatching_app.model.entity.LessonTemplateEntity;
 import com.teatching_app.model.entity.LevelTemplateEntity;
 import com.teatching_app.repository.LevelTemplateRepository;
 import com.teatching_app.validator.LessonDataValidator;
 import com.teatching_app.validator.LevelDataValidator;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AdminService {
@@ -16,14 +19,17 @@ public class AdminService {
     private final LessonDataValidator lessonDataValidator;
     private final LevelDataValidator levelDataValidator;
     private final LevelTemplateRepository levelTemplateRepository;
+    private final UserService userService;
 
-    public AdminService(LevelService levelService, LessonService lessonService, LessonDataValidator lessonDataValidator, LevelDataValidator levelDataValidator, LevelTemplateRepository levelTemplateRepository) {
+
+    public AdminService(LevelService levelService, LessonService lessonService, LessonDataValidator lessonDataValidator, LevelDataValidator levelDataValidator, LevelTemplateRepository levelTemplateRepository, UserService userService) {
 
         this.levelService = levelService;
         this.lessonService = lessonService;
         this.lessonDataValidator = lessonDataValidator;
         this.levelDataValidator = levelDataValidator;
         this.levelTemplateRepository = levelTemplateRepository;
+        this.userService = userService;
     }
 
     public LevelTemplateEntity addNewLevel(LevelDTO newLevel) {
@@ -44,5 +50,14 @@ public class AdminService {
         lessonService.addExercise(lessonTemplate,newLesson.getExercise());
 
         return lessonTemplate;
+    }
+
+    public List<UserDTO> getAllUser() {
+        List<UserDTO> listOfAllUser =  userService.getAllUser();
+        return listOfAllUser;
+    }
+
+    public void deleteUserByAdmin(Long id) {
+        userService.deleteUser(id);
     }
 }

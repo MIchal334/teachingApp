@@ -37,6 +37,9 @@ public class CourseEntity {
     @Column(name = "is_finished")
     private Boolean isFinished;
 
+    @Column(name = "is_deleted")
+    Boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;

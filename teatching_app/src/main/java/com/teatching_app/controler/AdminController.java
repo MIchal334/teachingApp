@@ -17,6 +17,21 @@ public class AdminController{
         this.adminService = adminService;
     }
 
+
+    @GetMapping("/user")
+    ResponseEntity<?> showAllUser(){
+        var result = adminService.getAllUser();
+        return  ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/user/{userId}")
+    ResponseEntity<?> deleteUserByAdmin(@PathVariable Long id){
+        adminService.deleteUserByAdmin(id);
+        return ResponseEntity.ok().build();
+    }
+
+
+
     @PostMapping("/{levelId}")
     ResponseEntity<?> addLessonToLevel(@PathVariable(name ="levelId") Long levelId,
                                        @RequestBody LessonDTO newLesson){
@@ -30,5 +45,8 @@ public class AdminController{
         var result = adminService.addNewLevel(newLevel);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+
+
+
 
 }

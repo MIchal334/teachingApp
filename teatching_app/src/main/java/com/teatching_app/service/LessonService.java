@@ -49,4 +49,13 @@ public class LessonService {
 
         });
     }
+
+    public void deleteLessonByLevelId(Long id) {
+        lessonRepository.findAllByLevelId(id)
+                .stream()
+                .filter(l -> !l.getIsDeleted())
+                .forEach(l ->{
+                    l.setIsDeleted(true);
+                });
+    }
 }

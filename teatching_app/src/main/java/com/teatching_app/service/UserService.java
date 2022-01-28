@@ -11,16 +11,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserService {
     private final UserDataValidator userDataValidator;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final  CourseService courseService;
 
-    public UserService(UserDataValidator userDataValidator, UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserDataValidator userDataValidator, UserRepository userRepository, RoleRepository roleRepository, CourseService courseService) {
         this.userDataValidator = userDataValidator;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.courseService = courseService;
     }
 
     public UserDTO registerNewUser(UserDTO newUser) {
@@ -39,5 +44,29 @@ public class UserService {
         UserEntity currentUser = userRepository.findUserByUsername(login)
                 .orElseThrow(() -> new ResourceNotExistsException("Username not exist"));
         return currentUser;
+    }
+
+    public List<UserDTO> getAllUser() {
+        return userRepository.findAll()
+                .stream()
+                .filter(u -> !u.getIsDeleted())
+                .filter(u -> !u.getRole().getRoleName().equals("ADMIN"))
+                .map(UserDTO::new)
+                .collect(Collectors.toList());
+    }
+
+
+    public void deleteUser(Long id) {
+        UserEntity userToDelete = getUserById(id);
+        courseService.deleteCourseOfUser(userToDelete);
+
+        userToDelete.setIsDeleted(true);
+        userRepository.save(userToDelete);
+    }
+
+    private UserEntity getUserById(Long id) {
+        return userRepository.findById(id)
+                .filter(u -> !u.getIsDeleted())
+                .orElseThrow(() -> new ResourceNotExistsException("User not exist or is deleted"));
     }
 }

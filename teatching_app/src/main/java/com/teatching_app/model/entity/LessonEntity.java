@@ -25,8 +25,15 @@ public class LessonEntity {
     @Column(name = "date_of_start")
     private LocalDate dateOfStart;
 
+    @Column(name = "is_started")
+    private Boolean isStarted;
+
     @Column(name = "is_finished")
     private Boolean isFinished;
+
+    @Column(name = "is_deleted")
+    Boolean isDeleted;
+
 
     @ManyToOne
     @JoinColumn(name = "level_id")
