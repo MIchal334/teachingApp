@@ -33,7 +33,8 @@ public class JwtUtil {
 
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(encodedString)).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary(encodedString))
+                .parseClaimsJws(token).getBody();
     }
 
     public String generateToken(UserDetails userDetails) {
