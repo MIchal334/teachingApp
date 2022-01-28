@@ -1,12 +1,11 @@
 package com.teatching_app.model.entity;
 
 
-import com.teatching_app.model.dto.LessonDTO;
+import com.teatching_app.model.dto.LessonTemplateDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -45,7 +44,7 @@ public class LessonTemplateEntity {
     public LessonTemplateEntity() {
     }
 
-    public LessonTemplateEntity(LessonDTO newLesson, LevelTemplateEntity levelTemplate) {
+    public LessonTemplateEntity(LessonTemplateDTO newLesson, LevelTemplateEntity levelTemplate) {
         this.number = newLesson.getNumber();
         this.topic = newLesson.getTopic();
         this.levelTemplate = levelTemplate;

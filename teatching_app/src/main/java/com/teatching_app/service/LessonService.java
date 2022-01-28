@@ -2,7 +2,7 @@ package com.teatching_app.service;
 
 import com.teatching_app.model.dto.ExerciseDTO;
 import com.teatching_app.model.dto.LessonContentDTO;
-import com.teatching_app.model.dto.LessonDTO;
+import com.teatching_app.model.dto.LessonTemplateDTO;
 import com.teatching_app.model.entity.*;
 import com.teatching_app.repository.*;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class LessonService {
         this.answerRepository = answerRepository;
     }
 
-    public LessonTemplateEntity saveNewLessonTemplate(LessonDTO newLesson, LevelTemplateEntity levelTemplate) {
+    public LessonTemplateEntity saveNewLessonTemplate(LessonTemplateDTO newLesson, LevelTemplateEntity levelTemplate) {
             LessonTemplateEntity lessonToSave = new LessonTemplateEntity(newLesson,levelTemplate);
             return lessonTemplateRepository.save(lessonToSave);
     }

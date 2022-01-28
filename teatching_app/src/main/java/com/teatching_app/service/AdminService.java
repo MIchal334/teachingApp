@@ -1,10 +1,11 @@
 package com.teatching_app.service;
 
-import com.teatching_app.model.dto.LessonDTO;
+import com.teatching_app.model.dto.LessonTemplateDTO;
 import com.teatching_app.model.dto.LevelTemplateDTO;
 import com.teatching_app.model.dto.UserDTO;
 import com.teatching_app.model.entity.LessonTemplateEntity;
 import com.teatching_app.model.entity.LevelTemplateEntity;
+import com.teatching_app.repository.LessonTemplateRepository;
 import com.teatching_app.repository.LevelTemplateRepository;
 import com.teatching_app.validator.LessonDataValidator;
 import com.teatching_app.validator.LevelDataValidator;
@@ -21,9 +22,10 @@ public class AdminService {
     private final LevelDataValidator levelDataValidator;
     private final LevelTemplateRepository levelTemplateRepository;
     private final UserService userService;
+    private final LessonTemplateRepository lessonTemplateRepository;
 
 
-    public AdminService(LevelService levelService, LessonService lessonService, LessonDataValidator lessonDataValidator, LevelDataValidator levelDataValidator, LevelTemplateRepository levelTemplateRepository, UserService userService) {
+    public AdminService(LevelService levelService, LessonService lessonService, LessonDataValidator lessonDataValidator, LevelDataValidator levelDataValidator, LevelTemplateRepository levelTemplateRepository, UserService userService, LessonTemplateRepository lessonTemplateRepository) {
 
         this.levelService = levelService;
         this.lessonService = lessonService;
@@ -31,6 +33,7 @@ public class AdminService {
         this.levelDataValidator = levelDataValidator;
         this.levelTemplateRepository = levelTemplateRepository;
         this.userService = userService;
+        this.lessonTemplateRepository = lessonTemplateRepository;
     }
 
     public LevelTemplateEntity addNewLevel(LevelTemplateDTO newLevel) {
@@ -42,7 +45,7 @@ public class AdminService {
     }
 
 
-    public LessonTemplateEntity addNewLesson(Long levelId, LessonDTO newLesson) {
+    public LessonTemplateEntity addNewLesson(Long levelId, LessonTemplateDTO newLesson) {
         lessonDataValidator.validData(newLesson, levelId);
 
         LevelTemplateEntity levelTemplate = levelService.getLevelTemplateById(levelId);
@@ -70,5 +73,13 @@ public class AdminService {
                 .collect(Collectors.toList());
 
 
+    }
+
+    public List<LessonTemplateDTO> lessonTemplateInLevel(Long levelId) {
+        return lessonTemplateRepository.findAll()
+                .stream()
+                .filter(l -> !l.getIsDeleted())
+                .map(l -> new LessonTemplateDTO(l))
+                .collect(Collectors.toList());
     }
 }

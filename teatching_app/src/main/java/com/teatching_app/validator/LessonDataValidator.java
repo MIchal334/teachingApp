@@ -1,7 +1,7 @@
 package com.teatching_app.validator;
 
 import com.teatching_app.exceptionHandler.exception.ResourceAlreadyExistsException;
-import com.teatching_app.model.dto.LessonDTO;
+import com.teatching_app.model.dto.LessonTemplateDTO;
 import com.teatching_app.repository.LessonTemplateRepository;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class LessonDataValidator {
         this.templateRepository = templateRepository;
     }
 
-    public void validData(LessonDTO newLesson, Long levelId) {
+    public void validData(LessonTemplateDTO newLesson, Long levelId) {
             greaterThan0(newLesson.getNumber());
             checkIfExist(newLesson.getNumber(),levelId);
             checkLengthTitle(newLesson.getTopic());
