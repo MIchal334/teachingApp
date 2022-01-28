@@ -36,5 +36,6 @@ public class ExerciseEntity {
     public ExerciseEntity(LessonTemplateEntity lesson, ExerciseDTO exercise) {
         this.question = exercise.getQuestion();
         this.lesson = lesson;
+        this.isDeleted = false;
     }
 }

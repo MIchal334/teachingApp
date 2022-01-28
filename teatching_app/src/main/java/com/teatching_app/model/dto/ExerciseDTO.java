@@ -16,6 +16,9 @@ public class ExerciseDTO {
     private String question;
     private Set<String> answers;
 
+    public ExerciseDTO() {
+    }
+
     public ExerciseDTO(ExerciseEntity o) {
         this.question = o.getQuestion();
         this.answers = o.getAnswers().stream()

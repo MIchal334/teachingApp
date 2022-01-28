@@ -34,6 +34,7 @@ public class AnswerEntity {
     public AnswerEntity(String answer, ExerciseEntity  exercise) {
         this.exercise = exercise;
         this.answer = answer;
+        this.isDeleted = false;
     }
 
 

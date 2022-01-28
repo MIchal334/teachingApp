@@ -14,10 +14,10 @@ import java.util.Optional;
 @Repository
 public interface LessonTemplateRepository extends JpaRepository<LessonTemplateEntity,Long> {
 
-    @Query("select lt.number from LessonTemplateEntity as lt where lt.levelTemplate.id = :id")
+    @Query("select lt.number from LessonTemplateEntity as lt where lt.levelTemplate.id = :id and lt.isDeleted = false ")
     List<Integer> findOfLessonNumbers(@Param("id") Long levelId);
 
-    @Query("select lt.topic from LessonTemplateEntity as lt where lt.levelTemplate.id = :id")
+    @Query("select lt.topic from LessonTemplateEntity as lt where lt.levelTemplate.id = :id and lt.isDeleted = false")
     List<String> findTopicsOfLesson(@Param("id") Long levelId);
 
     @Query("from LessonTemplateEntity as lt where lt.id = :level")

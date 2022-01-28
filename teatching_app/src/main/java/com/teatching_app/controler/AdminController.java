@@ -44,15 +44,14 @@ public class AdminController {
     }
 
     @PostMapping("/level/{levelId}")
-    ResponseEntity<?> addLessonToLevel(@PathVariable(name = "levelId") Long levelId,
-                                       @RequestBody LessonTemplateDTO newLesson) {
-
+    ResponseEntity<?> addNewLessonTemplateToLevel(@PathVariable(name = "levelId") Long levelId,
+                                                  @RequestBody LessonTemplateDTO newLesson) {
         var result = adminService.addNewLesson(levelId, newLesson);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PostMapping("/level")
-    ResponseEntity<?> addNewLevel(@RequestBody LevelTemplateDTO newLevel) {
+    ResponseEntity<?> addNewLevelTemplate(@RequestBody LevelTemplateDTO newLevel) {
         var result = adminService.addNewLevel(newLevel);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

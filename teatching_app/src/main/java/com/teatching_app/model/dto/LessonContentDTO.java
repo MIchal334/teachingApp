@@ -13,6 +13,9 @@ public class LessonContentDTO {
     private Integer orderNumber;
     private String advice;
 
+    public LessonContentDTO() {
+    }
+
     public LessonContentDTO(LessonContentEntity o) {
         this.orderNumber = o.getOrderNumber();
         this.advice = o.getAdvice();

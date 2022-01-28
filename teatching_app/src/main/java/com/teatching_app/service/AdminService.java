@@ -3,6 +3,8 @@ package com.teatching_app.service;
 import com.teatching_app.model.dto.LessonTemplateDTO;
 import com.teatching_app.model.dto.LevelTemplateDTO;
 import com.teatching_app.model.dto.UserDTO;
+import com.teatching_app.model.entity.ExerciseEntity;
+import com.teatching_app.model.entity.LessonContentEntity;
 import com.teatching_app.model.entity.LessonTemplateEntity;
 import com.teatching_app.model.entity.LevelTemplateEntity;
 import com.teatching_app.repository.LessonTemplateRepository;
@@ -12,6 +14,7 @@ import com.teatching_app.validator.LevelDataValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,15 +48,18 @@ public class AdminService {
     }
 
 
-    public LessonTemplateEntity addNewLesson(Long levelId, LessonTemplateDTO newLesson) {
+    public LessonTemplateDTO addNewLesson(Long levelId, LessonTemplateDTO newLesson) {
         lessonDataValidator.validData(newLesson, levelId);
 
         LevelTemplateEntity levelTemplate = levelService.getLevelTemplateById(levelId);
         LessonTemplateEntity lessonTemplate = lessonService.saveNewLessonTemplate(newLesson,levelTemplate);
-        lessonService.addContent(lessonTemplate,newLesson.getContent());
-        lessonService.addExercise(lessonTemplate,newLesson.getExercise());
 
-        return lessonTemplate;
+        Set<LessonContentEntity> contetnt = lessonService.addContent(lessonTemplate,newLesson.getContent());
+        Set<ExerciseEntity> exercise = lessonService.addExercise(lessonTemplate,newLesson.getExercise());
+
+        lessonTemplate.setLessonContents(contetnt);
+        lessonTemplate.setLessonExercises(exercise);
+        return new LessonTemplateDTO(lessonTemplate);
     }
 
     public List<UserDTO> getAllUser() {

@@ -38,5 +38,6 @@ public class LessonContentEntity {
         this.orderNumber = c.getOrderNumber();
         this.advice = c.getAdvice();
         this.lesson = lesson;
+        this.isDeleted = false;
     }
 }

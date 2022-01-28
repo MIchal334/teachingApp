@@ -8,6 +8,7 @@ import com.teatching_app.model.entity.*;
 import com.teatching_app.repository.*;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -32,23 +33,28 @@ public class LessonService {
     }
 
 
-    public void addContent(LessonTemplateEntity lesson, Set<LessonContentDTO> content) {
+    public Set<LessonContentEntity> addContent(LessonTemplateEntity lesson, Set<LessonContentDTO> content) {
+        Set<LessonContentEntity> addedContent = new HashSet<>();
         content.forEach(c ->
         {
-            lessonContentRepository.save(new LessonContentEntity(lesson, c));
+            addedContent.add(lessonContentRepository.save(new LessonContentEntity(lesson, c)));
         });
+        return addedContent;
     }
 
-    public void addExercise(LessonTemplateEntity lesson, Set<ExerciseDTO> exercise) {
+    public Set<ExerciseEntity> addExercise(LessonTemplateEntity lesson, Set<ExerciseDTO> exercise) {
+        Set<ExerciseEntity> addedExercise = new HashSet<>();
         exercise.forEach(e -> {
-
+            Set<AnswerEntity> addedAnswer = new HashSet<>();
             ExerciseEntity newExercise = exerciseRepository.save(new ExerciseEntity(lesson, e));
 
             e.getAnswers().forEach(a -> {
-                answerRepository.save(new AnswerEntity(a, newExercise));
+                addedAnswer.add(answerRepository.save(new AnswerEntity(a, newExercise)));
             });
-
+            newExercise.setAnswers(addedAnswer);
+            addedExercise.add(newExercise);
         });
+        return addedExercise;
     }
 
     public void deleteLessonByLevelId(Long id) {
@@ -78,20 +84,20 @@ public class LessonService {
     }
 
     private void deleteLessonContent(LessonTemplateEntity lessonToDelete) {
-            lessonToDelete
-                    .getLessonContents()
-                    .forEach( content ->{
-                        content.setIsDeleted(true);
-                        lessonContentRepository.save(content);
-                    });
+        lessonToDelete
+                .getLessonContents()
+                .forEach(content -> {
+                    content.setIsDeleted(true);
+                    lessonContentRepository.save(content);
+                });
     }
 
     private void deleteLessonExercise(LessonTemplateEntity lessonToDelete) {
         lessonToDelete
                 .getLessonExercises()
-                .forEach( exr ->{
+                .forEach(exr -> {
                     exr.getAnswers()
-                            .forEach(answer ->{
+                            .forEach(answer -> {
                                 answer.setIsDeleted(true);
                                 answerRepository.save(answer);
                             });
