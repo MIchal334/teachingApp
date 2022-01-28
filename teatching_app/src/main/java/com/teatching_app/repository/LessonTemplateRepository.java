@@ -20,7 +20,7 @@ public interface LessonTemplateRepository extends JpaRepository<LessonTemplateEn
     @Query("select lt.topic from LessonTemplateEntity as lt where lt.levelTemplate.id = :id and lt.isDeleted = false")
     List<String> findTopicsOfLesson(@Param("id") Long levelId);
 
-    @Query("from LessonTemplateEntity as lt where lt.id = :level")
+    @Query("from LessonTemplateEntity as lt where lt.levelTemplate = :level")
     List<LessonTemplateEntity> findAllLessonOfLevel(@Param("level") LevelTemplateEntity level);
 
 
