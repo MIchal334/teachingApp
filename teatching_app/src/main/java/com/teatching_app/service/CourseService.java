@@ -6,6 +6,8 @@ import com.teatching_app.model.entity.UserEntity;
 import com.teatching_app.repository.CourseRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
@@ -35,5 +37,19 @@ public class CourseService {
                     });
 
 
+    }
+
+    public List<CourseEntity> getCourseByStudentId(Long studentId) {
+        List<CourseEntity> coursesOfStudent = courseRepository.findAllByUserId(studentId);
+
+        if(coursesOfStudent.size() < 1){
+            throw new IllegalStateException("Student have not any courses");
+        }
+
+        return courseRepository.findAllByUserId(studentId);
+    }
+
+    public CourseEntity startNewStudentCourse(UserEntity student) {
+        return courseRepository.save(new CourseEntity(student));
     }
 }
