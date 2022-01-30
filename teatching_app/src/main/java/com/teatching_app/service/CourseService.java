@@ -1,5 +1,6 @@
 package com.teatching_app.service;
 
+import com.teatching_app.exceptionHandler.exception.ResourceAlreadyExistsException;
 import com.teatching_app.exceptionHandler.exception.ResourceNotExistsException;
 import com.teatching_app.model.entity.CourseEntity;
 import com.teatching_app.model.entity.UserEntity;
@@ -7,6 +8,7 @@ import com.teatching_app.repository.CourseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -50,6 +52,24 @@ public class CourseService {
     }
 
     public CourseEntity startNewStudentCourse(UserEntity student) {
+
+        if(checkIfStudentHaveCourse(student.getId(),"Angielski")){
+            throw new ResourceAlreadyExistsException("Student with this id have start course in system");
+        }
+
         return courseRepository.save(new CourseEntity(student));
+    }
+
+    private boolean checkIfStudentHaveCourse(Long studentId, String  subject){
+        int size = courseRepository.findAllByUserId(studentId)
+                .stream()
+                .filter(o -> o.getSubject().equals(subject))
+                .collect(Collectors.toList()).size();
+
+        if(size != 0){
+            return true;
+        }
+
+        return false;
     }
 }

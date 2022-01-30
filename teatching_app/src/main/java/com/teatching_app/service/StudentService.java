@@ -11,9 +11,13 @@ import java.util.List;
 public class StudentService {
 
     private final CourseService courseService;
+    private final LevelService levelService;
+    private final LessonService lessonService;
 
-    public StudentService(CourseService courseService) {
+    public StudentService(CourseService courseService, LevelService levelService, LessonService lessonService) {
         this.courseService = courseService;
+        this.levelService = levelService;
+        this.lessonService = lessonService;
     }
 
     public List<CourseEntity> getAllDataAboutStudentCourse(Long studentId) {
@@ -24,6 +28,7 @@ public class StudentService {
 
     public CourseDTO startNewCourseByStudent(UserEntity student) {
         CourseEntity courseEntity = courseService.startNewStudentCourse(student);
+        levelService.createFirstLevel(courseEntity);
         return new CourseDTO(courseEntity);
     }
 }

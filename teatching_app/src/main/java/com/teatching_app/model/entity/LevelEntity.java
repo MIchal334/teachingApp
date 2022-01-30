@@ -49,4 +49,14 @@ public class LevelEntity {
 
     public LevelEntity() {
     }
+
+    public LevelEntity( CourseEntity course) {
+        this.averageScore = (float)0;
+        this.levelOfCompletion = (float)0;
+        this.dateOfStart = LocalDate.now();
+        this.isStarted = true;
+        this.isFinished = false;
+        this.isDeleted = false;
+        this.course = course;
+    }
 }
