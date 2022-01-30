@@ -37,12 +37,22 @@ public class UserController {
         var result = userService.getCurrentUser();
         return ResponseEntity.ok(new UserDTO(result));
     }
+    
+    @DeleteMapping("/profile")
+    ResponseEntity<?> deleteUser() {
+        var result = userService.getCurrentUser();
+        userService.deleteUser(result.getId());
+        return ResponseEntity.ok().build();
+    }
+
 
     @PostMapping("/register")
     ResponseEntity<?> register(@RequestBody UserDTO newUser) {
         var result = userService.registerNewUser(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+
+
 
     @PostMapping("/auth")
     ResponseEntity<?> getToken(@RequestBody LoginDTO loginData) {
