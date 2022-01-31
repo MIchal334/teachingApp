@@ -9,6 +9,7 @@ import com.teatching_app.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -107,4 +108,9 @@ public class LessonService {
     }
 
 
+
+    public void startNextLesson(LevelEntity currentLevel, LessonTemplateEntity currentLessonTemplate) {
+        LessonEntity lessonToSave = new LessonEntity(currentLevel,currentLessonTemplate);
+        lessonRepository.save(lessonToSave);
+    }
 }

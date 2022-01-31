@@ -12,4 +12,8 @@ import java.util.List;
 public interface LessonRepository extends JpaRepository<LessonEntity,Long> {
     @Query("from LessonEntity  as l  where  l.level.id = :levelId")
     List<LessonEntity> findAllByLevelId(@Param("levelId") Long id);
+
+    @Query("from LessonEntity  as l  where l.lessonTemplate.number = :number and l.level.course.user.id = :id and  l.isFinished = true ")
+    List<LessonEntity> findFinishedLessonByStudentIdAndLevelNumber(@Param("id") long studentId,@Param("number") long lessonNumber);
+
 }

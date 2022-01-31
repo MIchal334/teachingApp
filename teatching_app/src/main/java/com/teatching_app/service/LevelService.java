@@ -1,6 +1,7 @@
 package com.teatching_app.service;
 
 import com.teatching_app.exceptionHandler.exception.ResourceNotExistsException;
+import com.teatching_app.model.dto.LevelTemplateDTO;
 import com.teatching_app.model.entity.CourseEntity;
 import com.teatching_app.model.entity.LessonTemplateEntity;
 import com.teatching_app.model.entity.LevelEntity;
@@ -15,10 +16,12 @@ public class LevelService {
     private final LevelTemplateRepository levelTemplateRepository;
     private final LessonService lessonService;
 
+
     public LevelService(LevelRepository courseRepository, LevelTemplateRepository levelTemplateRepository, LessonService lessonService) {
         this.levelRepository = courseRepository;
         this.levelTemplateRepository = levelTemplateRepository;
         this.lessonService = lessonService;
+
     }
 
     public LevelTemplateEntity getLevelTemplateById(Long id){
@@ -62,7 +65,16 @@ public class LevelService {
         }
     }
 
-    public void createFirstLevel(CourseEntity courseEntity) {
-        levelRepository.save(new LevelEntity(courseEntity));
+    public void createNextLevelToStudent(CourseEntity courseEntity, Integer levelTemplateNumber) {
+        LevelTemplateEntity levelToCreate =getLevelTemplateByNumber(levelTemplateNumber);
+        levelRepository.save(new LevelEntity(courseEntity,levelToCreate));
+
     }
+
+    public LevelTemplateEntity getLevelTemplateByNumber(int levelNumber) {
+        return levelTemplateRepository. findOfTemplateByNumber(levelNumber)
+                .orElseThrow(() -> new IllegalStateException("Error with creating new level"));
+    }
+
+
 }
