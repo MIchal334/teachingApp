@@ -1,5 +1,6 @@
 package com.teatching_app.controler;
 
+import com.teatching_app.model.dto.FinishLessonDTO;
 import com.teatching_app.service.StudentService;
 import com.teatching_app.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -37,4 +38,12 @@ public class StudentController {
         var result = studentService.startNextLessonByStudent(currentStudent);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
+
+    @PutMapping("/lesson")
+    ResponseEntity<?> finishLesson(@RequestBody FinishLessonDTO dataAboutFinishedLesson){
+        var currentStudent = userService.getCurrentUser();
+        studentService.finishLesson(dataAboutFinishedLesson,currentStudent);
+        return null;
+    }
+
 }

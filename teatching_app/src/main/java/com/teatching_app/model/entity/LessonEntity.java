@@ -35,6 +35,8 @@ public class LessonEntity {
     Boolean isDeleted;
 
 
+
+
     @ManyToOne
     @JoinColumn(name = "level_id")
     private LevelEntity level;
@@ -49,6 +51,7 @@ public class LessonEntity {
         this.dateOfStart = LocalDate.now();
         this.isStarted = true;
         this.isDeleted = false;
+        this.isFinished = false;
         this.level = level;
         this.lessonTemplate = lessonTemplate;
     }

@@ -5,20 +5,23 @@ import com.teatching_app.exceptionHandler.exception.ResourceNotExistsException;
 import com.teatching_app.model.entity.CourseEntity;
 import com.teatching_app.model.entity.UserEntity;
 import com.teatching_app.repository.CourseRepository;
+import com.teatching_app.repository.LevelTemplateRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
     private final CourseRepository courseRepository;
     private final LevelService levelService;
+    private final LevelTemplateRepository levelTemplateRepository;
 
 
-    public CourseService(CourseRepository courseRepository, LevelService levelService) {
+    public CourseService(CourseRepository courseRepository, LevelService levelService, LevelTemplateRepository levelTemplateRepository) {
         this.courseRepository = courseRepository;
         this.levelService = levelService;
+        this.levelTemplateRepository = levelTemplateRepository;
     }
 
     public CourseEntity getCourseById(Long id){
@@ -29,7 +32,7 @@ public class CourseService {
 
     public void deleteCourseOfUser(UserEntity userToDelete) {
                  courseRepository
-                    .findAllByUserId(userToDelete.getId())
+                    .findAllByUserIdAndSubject(userToDelete.getId(),"Angielski")
                     .stream()
                     .filter(c -> !c.getIsDeleted())
                     .forEach(c -> {
@@ -41,14 +44,10 @@ public class CourseService {
 
     }
 
-    public List<CourseEntity> getCourseByStudentId(Long studentId) {
-        List<CourseEntity> coursesOfStudent = courseRepository.findAllByUserId(studentId);
+    public CourseEntity getCourseByStudentIdAndSubject(Long studentId,String subject) {
+         Optional<CourseEntity> courseOfStudent = courseRepository.findAllByUserIdAndSubject(studentId,subject);
 
-        if(coursesOfStudent.size() < 1){
-            throw new IllegalStateException("Student have not any courses");
-        }
-
-        return courseRepository.findAllByUserId(studentId);
+        return courseOfStudent.orElseThrow(()->new ResourceNotExistsException("Student have not course"));
     }
 
     public CourseEntity startNewStudentCourse(UserEntity student) {
@@ -61,7 +60,7 @@ public class CourseService {
     }
 
     private boolean checkIfStudentHaveCourse(Long studentId, String  subject){
-        int size = courseRepository.findAllByUserId(studentId)
+        int size = courseRepository.findAllByUserIdAndSubject(studentId,subject)
                 .stream()
                 .filter(o -> o.getSubject().equals(subject))
                 .collect(Collectors.toList()).size();
@@ -71,5 +70,9 @@ public class CourseService {
         }
 
         return false;
+    }
+
+    public int getCountOfLevelTemplateInCourse() {
+        return levelTemplateRepository.findAll().size();
     }
 }

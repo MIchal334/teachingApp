@@ -2,6 +2,7 @@ package com.teatching_app.service;
 
 import com.teatching_app.exceptionHandler.exception.ResourceNotExistsException;
 import com.teatching_app.model.dto.ExerciseDTO;
+import com.teatching_app.model.dto.FinishLessonDTO;
 import com.teatching_app.model.dto.LessonContentDTO;
 import com.teatching_app.model.dto.LessonTemplateDTO;
 import com.teatching_app.model.entity.*;
@@ -9,7 +10,6 @@ import com.teatching_app.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -84,6 +84,28 @@ public class LessonService {
                 .orElseThrow(() -> new ResourceNotExistsException("Lesson template not exist"));
     }
 
+
+
+
+
+    public LessonEntity startNextLesson(LevelEntity currentLevel, LessonTemplateEntity currentLessonTemplate) {
+        LessonEntity lessonToSave = new LessonEntity(currentLevel,currentLessonTemplate);
+        lessonRepository.save(lessonToSave);
+        return lessonToSave;
+    }
+
+    public void finishLessonById(FinishLessonDTO dataAboutFinishedLesson) {
+        LessonEntity lessonToUpdate = getLessonById(dataAboutFinishedLesson.getCurrentLessonId());
+        lessonToUpdate.setIsFinished(true);
+        lessonToUpdate.setScore(dataAboutFinishedLesson.getScore());
+        lessonRepository.save(lessonToUpdate);
+    }
+
+    private LessonEntity getLessonById(Long lessonId){
+        return lessonRepository.findById(lessonId)
+                .orElseThrow(()-> new ResourceNotExistsException("Lesson not exist"));
+    }
+
     private void deleteLessonContent(LessonTemplateEntity lessonToDelete) {
         lessonToDelete
                 .getLessonContents()
@@ -107,10 +129,4 @@ public class LessonService {
                 });
     }
 
-
-
-    public void startNextLesson(LevelEntity currentLevel, LessonTemplateEntity currentLessonTemplate) {
-        LessonEntity lessonToSave = new LessonEntity(currentLevel,currentLessonTemplate);
-        lessonRepository.save(lessonToSave);
-    }
 }

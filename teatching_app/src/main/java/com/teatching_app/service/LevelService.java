@@ -77,4 +77,9 @@ public class LevelService {
     }
 
 
+    public int getCountOfLessonTemplateInLevelByNumber(int currentLevel) {
+        LevelTemplateEntity levelTemplate = getLevelTemplateByNumber(currentLevel);
+
+        return  levelTemplate.getLessonsTemplate().size();
+    }
 }

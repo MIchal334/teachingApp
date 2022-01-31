@@ -11,16 +11,18 @@ public class StartLessonDTO {
 
     private LevelTemplateDTO level;
     private LessonTemplateDTO lesson;
-    private Integer currentLevel;
-    private Integer currentLesson;
+    private Long currentLevelId;
+    private Long currentLessonId;
+    private Integer lessonTemplateNumber;
 
     public StartLessonDTO() {
     }
 
-    public StartLessonDTO(LevelTemplateDTO level, LessonTemplateDTO lesson, Integer currentLevel, Integer currentLesson) {
+    public StartLessonDTO(LevelTemplateDTO level, LessonTemplateDTO lesson, Long currentLevelId, Long currentLessonId,Integer lessonTemplateNumber) {
         this.level = level;
         this.lesson = lesson;
-        this.currentLevel = currentLevel;
-        this.currentLesson = currentLesson;
+        this.currentLevelId = currentLevelId;
+        this.currentLessonId = currentLessonId;
+        this.lessonTemplateNumber = lessonTemplateNumber;
     }
 }
