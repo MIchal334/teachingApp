@@ -44,6 +44,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+
     @PostMapping("/auth")
     ResponseEntity<?> getToken(@RequestBody LoginDTO loginData) {
         try {

@@ -27,7 +27,7 @@ public class UserDataValidator {
         validUsername(newUser.getUsername());
         validEmail(newUser.getEmail());
         validEmailFormat(newUser.getEmail());
-        roleValidator(newUser.getRoleName());
+        //roleValidator(newUser.getRoleName());
     }
 
     private void validUsername(String username) {
@@ -56,11 +56,11 @@ public class UserDataValidator {
     }
 
 
-    private void roleValidator(String roleName) {
-        List<String> roleList= roleRepository.findRoleNameWithoutAdmin();
-        if (!roleList.contains(roleName)) {
-            throw new IllegalArgumentException("This role is not available");
-        }
-    }
+//    private void roleValidator(String roleName) {
+//        List<String> roleList= roleRepository.findRoleNameWithoutAdmin();
+//        if (!roleList.contains(roleName)) {
+//            throw new IllegalArgumentException("This role is not available");
+//        }
+//    }
 
 }
