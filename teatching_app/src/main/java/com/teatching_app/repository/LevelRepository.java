@@ -12,6 +12,6 @@ import java.util.List;
 public interface LevelRepository extends JpaRepository<LevelEntity,Long> {
 
     @Query("from LevelEntity as l where  l.course.id = :courseId")
-    List<LevelEntity> findByCourseId(@Param("courseId") Long id);
+    List<LevelEntity> findLevelsByCourseId(@Param("courseId") Long id);
 
 }

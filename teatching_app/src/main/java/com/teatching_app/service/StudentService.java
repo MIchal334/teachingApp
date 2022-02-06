@@ -82,6 +82,9 @@ public class StudentService {
 
     public String finishLesson(FinishLessonDTO dataAboutFinishedLesson, UserEntity currentStudent) {
         lessonService.finishLessonById(dataAboutFinishedLesson);
+        levelService.updateAvgScore(dataAboutFinishedLesson,currentStudent);
+     //   courseService.updateAvgScore(dataAboutFinishedLesson);
+
         boolean isFinish = assignNewLessonToStudent(currentStudent, dataAboutFinishedLesson);
 
         if(isFinish){

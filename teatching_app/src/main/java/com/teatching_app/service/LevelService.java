@@ -1,11 +1,8 @@
 package com.teatching_app.service;
 
 import com.teatching_app.exceptionHandler.exception.ResourceNotExistsException;
-import com.teatching_app.model.dto.LevelTemplateDTO;
-import com.teatching_app.model.entity.CourseEntity;
-import com.teatching_app.model.entity.LessonTemplateEntity;
-import com.teatching_app.model.entity.LevelEntity;
-import com.teatching_app.model.entity.LevelTemplateEntity;
+import com.teatching_app.model.dto.FinishLessonDTO;
+import com.teatching_app.model.entity.*;
 import com.teatching_app.repository.LevelRepository;
 import com.teatching_app.repository.LevelTemplateRepository;
 import org.springframework.stereotype.Service;
@@ -44,7 +41,7 @@ public class LevelService {
     }
 
     public void deleteLevelByCourseId(Long id) {
-            levelRepository.findByCourseId(id)
+            levelRepository.findLevelsByCourseId(id)
                     .stream()
                     .filter(l -> !l.getIsDeleted())
                     .forEach(l ->{
@@ -82,4 +79,31 @@ public class LevelService {
 
         return  levelTemplate.getLessonsTemplate().size();
     }
+
+    public void updateAvgScore(FinishLessonDTO data, UserEntity student) {
+            LevelEntity levelToUpdate = levelRepository
+                    .findById(data.getCurrentLevelId())
+                    .orElseThrow(() -> new ResourceNotExistsException("Level not exist"));
+
+          long countOfFinished  =
+                  levelToUpdate.getLessons()
+                  .stream()
+                  .filter(o -> o.getIsFinished())
+                  .count();
+
+          Float newLessonResult = levelToUpdate
+                  .getLessons()
+                  .stream()
+                  .filter(o -> o.getId() == data.getCurrentLessonId())
+                  .findAny().get().getScore();
+
+          Float currentAvg = levelToUpdate.getAverageScore();
+          float newAvg = (currentAvg+newLessonResult) / countOfFinished;
+
+          levelToUpdate.setAverageScore(newAvg);
+          levelRepository.save(levelToUpdate);
+
+    }
+
+
 }
