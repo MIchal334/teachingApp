@@ -6,9 +6,11 @@ import com.teatching_app.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @RestController
 @RequestMapping("/student")
+@EnableSwagger2
 public class StudentController {
     private final UserService userService;
     private final StudentService studentService;
@@ -42,8 +44,8 @@ public class StudentController {
     @PutMapping("/lesson")
     ResponseEntity<?> finishLesson(@RequestBody FinishLessonDTO dataAboutFinishedLesson){
         var currentStudent = userService.getCurrentUser();
-        studentService.finishLesson(dataAboutFinishedLesson,currentStudent);
-        return null;
+        var result = studentService.finishLesson(dataAboutFinishedLesson,currentStudent);
+        return ResponseEntity.ok(result);
     }
 
 }

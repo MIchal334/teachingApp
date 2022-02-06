@@ -3,9 +3,11 @@ package com.teatching_app.service;
 import com.teatching_app.exceptionHandler.exception.ResourceNotExistsException;
 import com.teatching_app.model.dto.*;
 import com.teatching_app.model.entity.*;
+import com.teatching_app.repository.CourseRepository;
 import com.teatching_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -15,14 +17,16 @@ public class StudentService {
     private final LevelService levelService;
     private final LessonService lessonService;
     private final UserRepository userRepository;
+    private final CourseRepository courseRepository;
 
 
-    public StudentService(CourseService courseService, LevelService levelService, LessonService lessonService, UserRepository userRepository) {
+    public StudentService(CourseService courseService, LevelService levelService, LessonService lessonService, UserRepository userRepository, CourseRepository courseRepository) {
         this.courseService = courseService;
         this.levelService = levelService;
         this.lessonService = lessonService;
 
         this.userRepository = userRepository;
+        this.courseRepository = courseRepository;
     }
 
     public List<CourseEntity> getAllDataAboutStudentCourse(Long studentId) {
@@ -42,6 +46,13 @@ public class StudentService {
     }
 
     public StartLessonDTO startNextLessonByStudent(UserEntity currentStudent) {
+
+        CourseEntity course = courseService.getCourseByStudentIdAndSubject(currentStudent.getId(),"Angielski");
+
+        if(course.getIsFinished()){
+            throw  new IllegalStateException("Course is finished") ;
+        }
+
         int currentLevelNumber = currentStudent.getCurrentLevel();
         int lastLessonNumber = currentStudent.getLastLesson();
         LevelTemplateEntity currentLevelTemplate = levelService.getLevelTemplateByNumber(currentLevelNumber);
@@ -69,30 +80,42 @@ public class StudentService {
     }
 
 
-    public void finishLesson(FinishLessonDTO dataAboutFinishedLesson, UserEntity currentStudent) {
+    public String finishLesson(FinishLessonDTO dataAboutFinishedLesson, UserEntity currentStudent) {
         lessonService.finishLessonById(dataAboutFinishedLesson);
-        assignNewLessonToStudent(currentStudent, dataAboutFinishedLesson);
-        //TODO Zaktualizować wszelkie wyniki
+        boolean isFinish = assignNewLessonToStudent(currentStudent, dataAboutFinishedLesson);
+
+        if(isFinish){
+            return "Koneic";
+        }
+
+        return "OK";
+
     }
 
-    private void assignNewLessonToStudent(UserEntity currentStudent, FinishLessonDTO dataAboutFinishedLesson) {
-        // TODO ZABAC o odpowiwednia ifrormacje przy ukonczeniu kuru
+    private boolean assignNewLessonToStudent(UserEntity currentStudent, FinishLessonDTO dataAboutFinishedLesson) {
+        boolean finish = false;
         int currentLevel = currentStudent.getCurrentLevel();
         int countOfLessonInLevel = levelService.getCountOfLessonTemplateInLevelByNumber(currentLevel);
         int countOfLevelInCourse = courseService.getCountOfLevelTemplateInCourse();
 
 
         if (countOfLessonInLevel == dataAboutFinishedLesson.getLessonTemplateNumber()) {
-            if (currentLevel < countOfLevelInCourse) {
-                CourseEntity course = courseService.getCourseByStudentIdAndSubject(currentStudent.getId(),"Angielski");
+            CourseEntity course = courseService.getCourseByStudentIdAndSubject(currentStudent.getId(),"Angielski");
+            if (currentLevel < countOfLevelInCourse || course.getIsFinished()) {
                 currentStudent.setCurrentLevel(currentLevel + 1);
                 levelService.createNextLevelToStudent(course, currentLevel + 1);
                 currentStudent.setLastLesson(0);
+            }else {
+                course.setIsFinished(true);
+                course.setDateOfEnd(LocalDate.now());
+                courseRepository.save(course);
+                return true;
             }
 
         } else {
             currentStudent.setLastLesson(dataAboutFinishedLesson.getLessonTemplateNumber());
         }
         userRepository.save(currentStudent);
+        return finish;
     }
 }

@@ -8,12 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 
 import org.springframework.web.bind.annotation.*;
-
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @RestController
 @RequestMapping("/admin")
 @Secured("ROLE_ADMIN")
+@EnableSwagger2
 public class AdminController {
 
     private final AdminService adminService;

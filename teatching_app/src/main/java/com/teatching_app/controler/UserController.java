@@ -13,10 +13,12 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.ws.rs.NotAuthorizedException;
 
 @RestController
+@EnableSwagger2
 public class UserController {
 
     private final UserService userService;
@@ -41,6 +43,7 @@ public class UserController {
     @PostMapping("/register")
     ResponseEntity<?> register(@RequestBody UserDTO newUser) {
         var result = userService.registerNewUser(newUser);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
