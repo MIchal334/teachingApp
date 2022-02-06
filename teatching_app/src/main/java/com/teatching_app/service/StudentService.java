@@ -30,7 +30,7 @@ public class StudentService {
     }
 
     public List<CourseEntity> getAllDataAboutStudentCourse(Long studentId) {
-        CourseEntity courseEntity = courseService.getCourseByStudentIdAndSubject(studentId,"Angielski");
+        CourseEntity courseEntity = courseService.getCourseByStudentIdAndSubject(studentId, "Angielski");
         return null;
     }
 
@@ -47,10 +47,10 @@ public class StudentService {
 
     public StartLessonDTO startNextLessonByStudent(UserEntity currentStudent) {
 
-        CourseEntity course = courseService.getCourseByStudentIdAndSubject(currentStudent.getId(),"Angielski");
+        CourseEntity course = courseService.getCourseByStudentIdAndSubject(currentStudent.getId(), "Angielski");
 
-        if(course.getIsFinished()){
-            throw  new IllegalStateException("Course is finished") ;
+        if (course.getIsFinished()) {
+            throw new IllegalStateException("Course is finished");
         }
 
         int currentLevelNumber = currentStudent.getCurrentLevel();
@@ -82,12 +82,12 @@ public class StudentService {
 
     public String finishLesson(FinishLessonDTO dataAboutFinishedLesson, UserEntity currentStudent) {
         lessonService.finishLessonById(dataAboutFinishedLesson);
-        levelService.updateAvgScore(dataAboutFinishedLesson,currentStudent);
-     //   courseService.updateAvgScore(dataAboutFinishedLesson);
+        levelService.updateAvgScore(dataAboutFinishedLesson, currentStudent,dataAboutFinishedLesson.getScore());
+        courseService.updateAvgScore(dataAboutFinishedLesson,currentStudent,dataAboutFinishedLesson.getScore());
 
         boolean isFinish = assignNewLessonToStudent(currentStudent, dataAboutFinishedLesson);
 
-        if(isFinish){
+        if (isFinish) {
             return "Koneic";
         }
 
@@ -103,12 +103,14 @@ public class StudentService {
 
 
         if (countOfLessonInLevel == dataAboutFinishedLesson.getLessonTemplateNumber()) {
-            CourseEntity course = courseService.getCourseByStudentIdAndSubject(currentStudent.getId(),"Angielski");
+            CourseEntity course = courseService.getCourseByStudentIdAndSubject(currentStudent.getId(), "Angielski");
+            levelService.finishLevelById(dataAboutFinishedLesson.getCurrentLevelId());
+
             if (currentLevel < countOfLevelInCourse || course.getIsFinished()) {
                 currentStudent.setCurrentLevel(currentLevel + 1);
                 levelService.createNextLevelToStudent(course, currentLevel + 1);
                 currentStudent.setLastLesson(0);
-            }else {
+            } else {
                 course.setIsFinished(true);
                 course.setDateOfEnd(LocalDate.now());
                 courseRepository.save(course);

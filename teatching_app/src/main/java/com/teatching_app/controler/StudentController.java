@@ -10,7 +10,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @RestController
 @RequestMapping("/student")
-@EnableSwagger2
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class StudentController {
     private final UserService userService;
     private final StudentService studentService;
