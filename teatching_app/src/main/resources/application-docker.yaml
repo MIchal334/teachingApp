@@ -1,0 +1,9 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://data_base:3306/teaching_app?serverTimezone=Europe/Budapest
+    username: tApp
+    password: tApp
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+

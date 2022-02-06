@@ -1,2 +1,4 @@
  
-	ZRobić templetki to jest to skąd ma brać pytania a każdy ma swój indywidualny kurs 
+	
+	-Policzyć i zakualizować wszystkiw wyniki po zakończeniu lekicj
+	- Dodać komunikat o zakończeniu kursu przez użytkownika
