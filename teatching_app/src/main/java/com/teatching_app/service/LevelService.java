@@ -93,11 +93,14 @@ public class LevelService {
                         .filter(o -> o.getIsFinished())
                         .count();
 
+        int countOfAllLesson = levelToUpdate.getLevelTemplate().getLessonsTemplate().size();
 
-        Float currentAvg = levelToUpdate.getAverageScore();
-        float newAvg = (currentAvg + score) / countOfFinished;
+        Float currentAvg = levelToUpdate.getAverageScore()*(countOfFinished-1);
+        Float newAvg = (currentAvg + score) / countOfFinished;
+        Float levelOfCompletion = Float.valueOf( ((float)countOfFinished)/countOfAllLesson) *100;
 
         levelToUpdate.setAverageScore(newAvg);
+        levelToUpdate.setLevelOfCompletion(levelOfCompletion);
         levelRepository.save(levelToUpdate);
 
     }

@@ -96,6 +96,11 @@ public class LessonService {
 
     public void finishLessonById(FinishLessonDTO dataAboutFinishedLesson) {
         LessonEntity lessonToUpdate = getLessonById(dataAboutFinishedLesson.getCurrentLessonId());
+
+        if(lessonToUpdate.getIsFinished()){
+            throw  new IllegalStateException("lesson finished");
+        }
+
         lessonToUpdate.setIsFinished(true);
         lessonToUpdate.setScore(dataAboutFinishedLesson.getScore());
         lessonRepository.save(lessonToUpdate);

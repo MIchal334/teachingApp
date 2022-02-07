@@ -8,7 +8,9 @@ import com.teatching_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -29,9 +31,26 @@ public class StudentService {
         this.courseRepository = courseRepository;
     }
 
-    public List<CourseEntity> getAllDataAboutStudentCourse(Long studentId) {
+    public StatDTO getAllDataAboutStudentCourse(Long studentId) {
         CourseEntity courseEntity = courseService.getCourseByStudentIdAndSubject(studentId, "Angielski");
-        return null;
+        List<LevelStatDTO> listOfLevelStat = new ArrayList<>();
+
+        courseEntity
+                .getLevels()
+                .forEach(level -> {
+                    List<LessonStatDTO> lessonStat =
+                            level.getLessons()
+                                    .stream()
+                                    .filter(LessonEntity::getIsFinished)
+                                    .map(LessonStatDTO::new)
+                                    .collect(Collectors.toList());
+                    LevelStatDTO levelStatDTO = new LevelStatDTO(level,lessonStat);
+                    listOfLevelStat.add(levelStatDTO);
+                });
+
+        StatDTO statDTO = new StatDTO(courseEntity,listOfLevelStat);
+
+        return statDTO;
     }
 
     public CourseDTO startNewCourseByStudent(UserEntity student) {
@@ -81,9 +100,10 @@ public class StudentService {
 
 
     public String finishLesson(FinishLessonDTO dataAboutFinishedLesson, UserEntity currentStudent) {
+
         lessonService.finishLessonById(dataAboutFinishedLesson);
-        levelService.updateAvgScore(dataAboutFinishedLesson, currentStudent,dataAboutFinishedLesson.getScore());
-        courseService.updateAvgScore(dataAboutFinishedLesson,currentStudent,dataAboutFinishedLesson.getScore());
+        levelService.updateAvgScore(dataAboutFinishedLesson, currentStudent, dataAboutFinishedLesson.getScore());
+        courseService.updateAvgScore(dataAboutFinishedLesson, currentStudent, dataAboutFinishedLesson.getScore());
 
         boolean isFinish = assignNewLessonToStudent(currentStudent, dataAboutFinishedLesson);
 

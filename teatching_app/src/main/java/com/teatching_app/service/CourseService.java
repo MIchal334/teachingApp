@@ -7,13 +7,12 @@ import com.teatching_app.model.entity.CourseEntity;
 import com.teatching_app.model.entity.LevelEntity;
 import com.teatching_app.model.entity.UserEntity;
 import com.teatching_app.repository.CourseRepository;
+import com.teatching_app.repository.LessonTemplateRepository;
 import com.teatching_app.repository.LevelTemplateRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,12 +20,14 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final LevelService levelService;
     private final LevelTemplateRepository levelTemplateRepository;
+    private final LessonTemplateRepository lessonTemplateRepository;
 
 
-    public CourseService(CourseRepository courseRepository, LevelService levelService, LevelTemplateRepository levelTemplateRepository) {
+    public CourseService(CourseRepository courseRepository, LevelService levelService, LevelTemplateRepository levelTemplateRepository, LessonTemplateRepository lessonTemplateRepository) {
         this.courseRepository = courseRepository;
         this.levelService = levelService;
         this.levelTemplateRepository = levelTemplateRepository;
+        this.lessonTemplateRepository = lessonTemplateRepository;
     }
 
     public CourseEntity getCourseById(Long id) {
@@ -84,16 +85,24 @@ public class CourseService {
     public void updateAvgScore(FinishLessonDTO dataAboutFinishedLesson, UserEntity currentStudent, Float newLessonResult) {
         CourseEntity course = this.getCourseByStudentIdAndSubject(currentStudent.getId(), "Angielski");
         Long countOfFinished = 0l;
+        Long countOfAllLesson = 0l;
         Set<LevelEntity> levels = course.getLevels();
 
-        for(LevelEntity l : levels){
-            countOfFinished += l.getLessons().stream().count();
+        countOfAllLesson = lessonTemplateRepository.count();
+        for (LevelEntity l : levels) {
+            countOfFinished += l.getLessons().stream()
+                    .filter(lesson -> lesson.getIsFinished())
+                    .count();
         }
 
-        Float currentAvg = course.getAverageScore();
-        float newAvg = (currentAvg + newLessonResult) / countOfFinished;
+        Float currentAvg = course.getAverageScore() * (countOfFinished-1);
+        Float newAvg = (currentAvg + newLessonResult) / countOfFinished;
+        Float levelOfCompletion = Float.valueOf(((float)countOfFinished) / countOfAllLesson)*100;
 
+        course.setLevelOfCompletion(levelOfCompletion);
         course.setAverageScore(newAvg);
         courseRepository.save(course);
     }
+
+
 }
