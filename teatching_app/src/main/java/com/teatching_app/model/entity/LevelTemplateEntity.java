@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Comparator;
 import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "level_template")
-public class LevelTemplateEntity {
+public class LevelTemplateEntity  implements Comparator<LevelTemplateEntity> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,9 @@ public class LevelTemplateEntity {
     @OneToMany(mappedBy = "levelTemplate")
     private Set<LessonTemplateEntity> lessonsTemplate;
 
+    @OneToMany(mappedBy = "levelTemplate")
+    private Set<LevelEntity> levels;
+
     public LevelTemplateEntity() {
     }
 
@@ -37,5 +41,10 @@ public class LevelTemplateEntity {
         this.number = newLevel.getNumber();
         this.topic = newLevel.getTopic();
         this.isDeleted = false;
+    }
+
+    @Override
+    public int compare(LevelTemplateEntity l1, LevelTemplateEntity l2) {
+        return Integer.compare(l1.getNumber(), l2.getNumber());
     }
 }

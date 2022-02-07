@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Set;
 
 @Entity
@@ -43,10 +44,26 @@ public class LevelEntity {
     @JoinColumn(name = "course_id")
     private CourseEntity course;
 
+    @ManyToOne
+    @JoinColumn(name = "level_template_id")
+    private LevelTemplateEntity levelTemplate;
 
     @OneToMany(mappedBy = "level")
     private Set<LessonEntity> lessons;
 
     public LevelEntity() {
     }
+
+    public LevelEntity( CourseEntity course, LevelTemplateEntity levelTemplate) {
+        this.averageScore = (float)0;
+        this.levelOfCompletion = (float)0;
+        this.dateOfStart = LocalDate.now();
+        this.isStarted = true;
+        this.isFinished = false;
+        this.isDeleted = false;
+        this.course = course;
+        this.levelTemplate = levelTemplate;
+    }
+
+
 }

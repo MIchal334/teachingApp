@@ -39,6 +39,12 @@ public class UserEntity {
     @Column(name = "is_deleted")
     Boolean isDeleted;
 
+    @Column(name = "last_lesson_number")
+    Integer lastLesson;
+
+    @Column(name = "current_level_number")
+    Integer currentLevel;
+
     @ManyToOne
     @JoinColumn(name = "role")
     RoleEntity role;
@@ -57,5 +63,7 @@ public class UserEntity {
         this.email = newUser.getEmail();
         this.role = role;
         this.isDeleted = false;
+        this.lastLesson = 0;
+        this.currentLevel = 0;
     }
 }

@@ -35,20 +35,29 @@ public class LessonEntity {
     Boolean isDeleted;
 
 
+
+
     @ManyToOne
     @JoinColumn(name = "level_id")
     private LevelEntity level;
 
-    @OneToMany(mappedBy = "lesson")
-    private Set<LessonContentEntity> lessonContents;
+    @ManyToOne
+    @JoinColumn(name = "lesson_template_id")
+    private LessonTemplateEntity lessonTemplate;
 
-    @OneToMany(mappedBy = "lesson")
-    private Set<ExerciseEntity> lessonExercises;
 
-    public LessonEntity(LevelEntity level) {
+    public LessonEntity( LevelEntity level, LessonTemplateEntity lessonTemplate) {
+        this.score = (float)0;
+        this.dateOfStart = LocalDate.now();
+        this.isStarted = true;
+        this.isDeleted = false;
+        this.isFinished = false;
         this.level = level;
+        this.lessonTemplate = lessonTemplate;
     }
 
     public LessonEntity() {
     }
+
+
 }

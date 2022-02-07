@@ -17,7 +17,7 @@ public class CourseEntity {
     private Long id;
 
     @Column(name = "subject")
-    private String subjec;
+    private String subject;
 
     @Column(name = "average_score")
     private Float averageScore;
@@ -49,5 +49,17 @@ public class CourseEntity {
     private Set<LevelEntity> levels;
 
     public CourseEntity() {
+    }
+
+
+    public CourseEntity(UserEntity user) {
+        this.subject = "Angielski";
+        this.averageScore = (float)0;
+        this.levelOfCompletion = (float)0;
+        this.dateOfStart = LocalDate.now();
+        this.isStarted = true;
+        this.isFinished = false;
+        this.isDeleted = false;
+        this.user = user;
     }
 }

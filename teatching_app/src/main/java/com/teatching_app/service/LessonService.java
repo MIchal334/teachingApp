@@ -2,6 +2,7 @@ package com.teatching_app.service;
 
 import com.teatching_app.exceptionHandler.exception.ResourceNotExistsException;
 import com.teatching_app.model.dto.ExerciseDTO;
+import com.teatching_app.model.dto.FinishLessonDTO;
 import com.teatching_app.model.dto.LessonContentDTO;
 import com.teatching_app.model.dto.LessonTemplateDTO;
 import com.teatching_app.model.entity.*;
@@ -81,6 +82,33 @@ public class LessonService {
         return lessonTemplateRepository.findById(id)
                 .filter(l -> !l.getIsDeleted())
                 .orElseThrow(() -> new ResourceNotExistsException("Lesson template not exist"));
+    }
+
+
+
+
+
+    public LessonEntity startNextLesson(LevelEntity currentLevel, LessonTemplateEntity currentLessonTemplate) {
+        LessonEntity lessonToSave = new LessonEntity(currentLevel,currentLessonTemplate);
+        lessonRepository.save(lessonToSave);
+        return lessonToSave;
+    }
+
+    public void finishLessonById(FinishLessonDTO dataAboutFinishedLesson) {
+        LessonEntity lessonToUpdate = getLessonById(dataAboutFinishedLesson.getCurrentLessonId());
+
+        if(lessonToUpdate.getIsFinished()){
+            throw  new IllegalStateException("lesson finished");
+        }
+
+        lessonToUpdate.setIsFinished(true);
+        lessonToUpdate.setScore(dataAboutFinishedLesson.getScore());
+        lessonRepository.save(lessonToUpdate);
+    }
+
+    private LessonEntity getLessonById(Long lessonId){
+        return lessonRepository.findById(lessonId)
+                .orElseThrow(()-> new ResourceNotExistsException("Lesson not exist"));
     }
 
     private void deleteLessonContent(LessonTemplateEntity lessonToDelete) {

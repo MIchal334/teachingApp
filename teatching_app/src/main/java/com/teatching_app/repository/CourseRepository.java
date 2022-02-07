@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface CourseRepository extends JpaRepository<CourseEntity,Long> {
 
 
-    @Query("from CourseEntity as c where c.user.id = :userId")
-    List<CourseEntity> findAllByUserId(@Param("userId") Long id);
+    @Query("from CourseEntity as c where c.user.id = :userId and c.subject = :sub")
+    Optional<CourseEntity> findAllByUserIdAndSubject(@Param("userId") Long id,@Param("sub") String subject);
+
 }

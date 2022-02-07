@@ -20,6 +20,9 @@ public class ExerciseEntity {
     @Column(name = "question")
     private String question;
 
+    @Column(name = "correct_answer")
+    private String correctAnswer;
+
     @Column(name = "is_deleted")
     Boolean isDeleted;
 
@@ -36,6 +39,7 @@ public class ExerciseEntity {
     public ExerciseEntity(LessonTemplateEntity lesson, ExerciseDTO exercise) {
         this.question = exercise.getQuestion();
         this.lesson = lesson;
+        this.correctAnswer = exercise.getCorrect();
         this.isDeleted = false;
     }
 }

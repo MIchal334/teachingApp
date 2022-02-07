@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 public class ExerciseDTO {
 
     private String question;
+    private String correct;
     private Set<String> answers;
 
     public ExerciseDTO() {
@@ -21,6 +22,7 @@ public class ExerciseDTO {
 
     public ExerciseDTO(ExerciseEntity o) {
         this.question = o.getQuestion();
+        this.correct = o.getCorrectAnswer();
         this.answers = o.getAnswers().stream()
                 .filter(ans -> !ans.getIsDeleted())
                 .map(AnswerEntity::getAnswer)

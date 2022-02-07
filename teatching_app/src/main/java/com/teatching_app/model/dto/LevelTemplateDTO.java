@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class LevelTemplateDTO {
+    private Long id;
     private String topic;
     private Integer number;
 
@@ -14,6 +15,7 @@ public class LevelTemplateDTO {
     }
 
     public LevelTemplateDTO(LevelTemplateEntity l) {
+        this.id = l.getId();
         this.topic = l.getTopic();
         this.number = l.getNumber();
     }
