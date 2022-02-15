@@ -1,0 +1,46 @@
+version: "3"
+
+
+networks:
+    baza-net:
+
+volumes:
+    base_volume:
+
+
+
+services:
+
+    data_base:
+        image: mysql
+
+        volumes:
+            - base_volume:/var/lib/mysql
+
+        ports:
+            - 3307:3306
+
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            MYSQL_USER: tApp
+            MYSQL_PASSWORD: tApp
+            MYSQL_DATABASE: teaching_app
+
+        networks:
+            - baza-net
+
+        healthcheck:
+          test: "exit 0"
+
+
+    app:
+      image: 0100110101001101/teatching_app:latest
+      ports:
+        - 8090:8080
+      networks:
+        - baza-net
+      depends_on:
+        data_base:
+          condition: service_healthy
+      environment:
+        SPRING_PROFILES_ACTIVE: docker

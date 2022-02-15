@@ -1,4 +1,0 @@
- 
-	
-	-Policzyć i zakualizować wszystkiw wyniki po zakończeniu lekicj
-	- Dodać komunikat o zakończeniu kursu przez użytkownika

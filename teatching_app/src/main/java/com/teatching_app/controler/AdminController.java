@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RestController
 @RequestMapping("/admin")
 @Secured("ROLE_ADMIN")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 public class AdminController {
 
     private final AdminService adminService;
@@ -29,7 +29,7 @@ public class AdminController {
         return ResponseEntity.ok(result);
     }
 
-    @DeleteMapping("/user/{userId}")
+    @PatchMapping("/user/{userId}")
     ResponseEntity<?> deleteUserByAdmin(@PathVariable Long id) {
         adminService.deleteUserByAdmin(id);
         return ResponseEntity.ok().build();
@@ -61,13 +61,15 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @DeleteMapping("/level/{levelId}")
+
+    @PatchMapping("/level/{levelId}")
     ResponseEntity<?> deleteLevelTemplateByAdmin(@PathVariable("levelId") Long levelId) {
         adminService.deleteLevelTemplateById(levelId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/level/{levelId}/{lessonId}")
+
+    @PatchMapping("/level/{levelId}/{lessonId}")
     ResponseEntity<?> deleteLessonTemplateInLevelByAdmin(@PathVariable("levelId") Long levelId,
                                                          @PathVariable("lessonId") Long lessonId) {
         adminService.deleteLessonTemplateById(levelId,lessonId);

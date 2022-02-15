@@ -18,7 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import javax.ws.rs.NotAuthorizedException;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 public class UserController {
 
     private final UserService userService;
@@ -40,7 +40,7 @@ public class UserController {
         return ResponseEntity.ok(new UserDTO(result));
     }
     
-    @DeleteMapping("/profile")
+    @PatchMapping("/profile")
     ResponseEntity<?> deleteUser() {
         var result = userService.getCurrentUser();
         userService.deleteUser(result.getId());
