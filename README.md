@@ -5,7 +5,7 @@ This application is designed to assist users in learning English. It provides a 
 
 ## Technologies Used
 
-- **Backend**: [Java](https://www.java.com/), [Spring Boot](https://spring.io/projects/spring-boot)
+- **Backend**: Java, Spring Boot
 - **Security**: [Spring Security](https://spring.io/projects/spring-security) with [JWT](https://jwt.io/)
 - **Database**: [MySQL](https://www.mysql.com/)
 - **Database Migration**: [Flyway](https://flywaydb.org/)
