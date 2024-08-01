@@ -6,8 +6,8 @@ This application is designed to assist users in learning English. It provides a 
 ## Technologies Used
 
 - **Backend**: Java, Spring Boot
-- **Security**: [Spring Security](https://spring.io/projects/spring-security) with [JWT](https://jwt.io/)
-- **Database**: [MySQL](https://www.mysql.com/)
-- **Database Migration**: [Flyway](https://flywaydb.org/)
-- **Containerization**: [Docker](https://www.docker.com/), [Docker Compose](https://docs.docker.com/compose/)
+- **Security**: Spring Security with JWT
+- **Database**: MySQL
+- **Database Migration**: Flyway
+- **Containerization**: Docker, Docker Compose
 - **Architecture**: Three-layered architecture (Controller, Service, Repository)
